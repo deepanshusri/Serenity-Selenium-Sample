@@ -1,0 +1,22 @@
+trigger:
+  - main  # Change to your branch if needed
+
+pool:
+  vmImage: 'ubuntu-latest'  # Runs on an Ubuntu VM
+
+steps:
+  - task: UseJavaVersion@1
+    inputs:
+      versionSpec: '17'
+
+  - script: |
+      echo "Installing dependencies..."
+      sudo apt update
+      sudo apt install -y unzip maven
+    displayName: "Install Dependencies"
+
+  - script: |
+      echo "Running Serenity BDD tests on LambdaTest..."
+      mvn clean verify -Dserenity.driver=remote \
+        -Dwebdriver.remote.url="https://$(LT_USERNAME):$(LT_ACCESS_KEY)@hub.lambdatest.com/wd/hub"
+    displayName: "Run Tests on LambdaTest"
