@@ -1,13 +1,15 @@
 trigger:
-  - main  # Change to your branch if needed
+  - main  # Adjust if using a different branch
 
 pool:
-  vmImage: 'ubuntu-latest'  # Runs on an Ubuntu VM
+  vmImage: 'ubuntu-latest'  # Runs on Ubuntu VM
 
 steps:
-  - task: UseJavaVersion@1
+  - task: JavaToolInstaller@0
     inputs:
       versionSpec: '17'
+      jdkArchitecture: 'x64'
+      jdkSource: 'PreInstalled'
 
   - script: |
       echo "Installing dependencies..."
